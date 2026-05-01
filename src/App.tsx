@@ -3,6 +3,7 @@ import { Header } from './components/Header/Header';
 import { Ticker } from './components/Ticker/Ticker';
 import { TabBar, type TabKey, type ViewerKey } from './components/TabBar/TabBar';
 import { PressGrid } from './components/PressGrid/PressGrid';
+import { Chevron } from './components/Chevron/Chevron';
 import { CELLS_PER_PAGE, PRESSES } from './data/presses';
 import { TICKER_LANE_LEFT, TICKER_LANE_RIGHT } from './data/ticker';
 import styles from './App.module.css';
@@ -14,12 +15,16 @@ export function App() {
   // Week 2의 구독 상태가 아직 없으므로 frame 01 화면을 재현하기 위해 임시로 8로 표시.
   const subCount = 8;
 
+  const pageCount = useMemo(() => {
+    if (tab === 'all') return Math.ceil(PRESSES.length / CELLS_PER_PAGE); // 3
+    return Math.max(1, Math.ceil(subCount / CELLS_PER_PAGE));
+  }, [tab, subCount]);
+
   const pageItems = useMemo(() => {
     if (tab === 'all') {
       const start = page * CELLS_PER_PAGE;
       return PRESSES.slice(start, start + CELLS_PER_PAGE);
     }
-    // 구독 탭: 구독 상태는 Week 2에서 도입. 지금은 빈 sparse 그리드.
     return [];
   }, [tab, page]);
 
@@ -49,7 +54,20 @@ export function App() {
       <div className={styles.content}>
         <PressGrid items={pageItems} />
       </div>
-      {/* chevron 은 #9에서 추가 */}
+      <div className={`${styles.chevron} ${styles.chevronLeft}`}>
+        <Chevron
+          dir="left"
+          disabled={page === 0}
+          onClick={() => setPage((p) => Math.max(0, p - 1))}
+        />
+      </div>
+      <div className={`${styles.chevron} ${styles.chevronRight}`}>
+        <Chevron
+          dir="right"
+          disabled={page >= pageCount - 1}
+          onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+        />
+      </div>
     </div>
   );
 }
