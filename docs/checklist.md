@@ -16,18 +16,18 @@
 
 ### 기반
 
-- ◻ **#1 프로젝트 셋업** — Vite + React 18 + TypeScript, 폴더 구조, `.gitignore`, 계획 문서
-- ◻ **#2 디자인 토큰 → CSS 변수** — color/space/radius/font 토큰을 `:root`에 (디자인 시스템 §2-5)
-- ◻ **#3 언론사 mock 데이터 (72개)** — `PressWordmark` props 포함된 outlet 데이터, 카테고리, ticker 데이터
+- ✅ **#1 프로젝트 셋업** — Vite + React 18 + TypeScript, 폴더 구조, `.gitignore`, 계획 문서
+- ✅ **#2 디자인 토큰 → CSS 변수** — color/space/radius/font 토큰을 `:root`에 (디자인 시스템 §2-5)
+- ✅ **#3 언론사 mock 데이터 (72개)** — `PressWordmark` props 포함된 outlet 데이터, 카테고리, ticker 데이터
 
 ### 컴포넌트 (보이는 화면)
 
-- ◻ **#4 Header** — 신문 아이콘 + "뉴스스탠드" wordmark + 오늘 날짜 (`flex space-between`, height 29)
-- ◻ **#5 자동 롤링 뉴스 티커** — 2 lanes, 3.2s 회전, 0.55s crossfade, `prefers-reduced-motion` 가드
-- ◻ **#6 TabBar + viewer toggle** — 전체/구독 탭 + badge + 리스트/그리드 아이콘
-- ◻ **#7 PressWordmark 컴포넌트** — weight/family/italic/underline/tracking/accent/accentChar/accentUnder/accentBg/flag/latin/small props
-- ◻ **#8 6×4 Grid (전체 언론사)** — 930×388, gap 1px → divider line 효과
-- ◻ **#9 Chevron 페이지네이션** — 24×40 chevron, 3 페이지 좌우 이동, disabled opacity 0
+- ✅ **#4 Header** — 신문 아이콘 + "뉴스스탠드" wordmark + 오늘 날짜 (`flex space-between`, height 29)
+- ✅ **#5 자동 롤링 뉴스 티커** — 2 lanes, 3.2s 회전, 0.55s crossfade, `prefers-reduced-motion` 가드
+- ✅ **#6 TabBar + viewer toggle** — 전체/구독 탭 + badge + 리스트/그리드 아이콘
+- ✅ **#7 PressWordmark 컴포넌트** — weight/family/italic/underline/tracking/accent/accentChar/accentUnder/accentBg/flag/latin/small props
+- ✅ **#8 6×4 Grid (전체 언론사)** — 930×388, gap 1px → divider line 효과
+- ✅ **#9 Chevron 페이지네이션** — 24×40 chevron, 3 페이지 좌우 이동, disabled opacity 0
 
 ---
 
