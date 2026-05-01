@@ -1,7 +1,13 @@
+import { Header } from './components/Header/Header';
+import styles from './App.module.css';
+
 export function App() {
   return (
-    <div className="newsstand">
-      <p>뉴스스탠드 — 셋업 완료. 이후 커밋에서 컴포넌트가 채워집니다.</p>
+    <div className={styles.canvas}>
+      <div className={styles.header}>
+        <Header />
+      </div>
+      {/* ticker / tabbar / content / chevron 은 후속 커밋에서 채움 */}
     </div>
   );
 }
