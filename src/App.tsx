@@ -75,6 +75,18 @@ export function App() {
     [openedId],
   );
 
+  // ESC로 오픈된 프레스 닫기 (a11y).
+  useEffect(() => {
+    if (!openedPress) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenedId(null);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [openedPress]);
+
+  const subEmpty = tab === 'sub' && subscribedPresses.length === 0 && !openedPress;
+
   return (
     <div className={styles.canvas}>
       <div className={styles.header}>
@@ -101,6 +113,13 @@ export function App() {
             onUnsubscribe={handleUnsubscribe}
             onClose={() => setOpenedId(null)}
           />
+        ) : subEmpty ? (
+          <div className={styles.empty} role="status">
+            <p className={styles.emptyTitle}>아직 구독한 언론사가 없어요.</p>
+            <p className={styles.emptySub}>
+              그리드의 언론사 카드에 마우스를 올려 ‘+ 구독하기’를 눌러보세요.
+            </p>
+          </div>
         ) : (
           <PressGrid
             items={pageItems}
@@ -111,7 +130,7 @@ export function App() {
           />
         )}
       </div>
-      {!openedPress && (
+      {!openedPress && !subEmpty && (
         <>
           <div className={`${styles.chevron} ${styles.chevronLeft}`}>
             <Chevron
