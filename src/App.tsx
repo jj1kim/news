@@ -3,6 +3,7 @@ import { Header } from './components/Header/Header';
 import { Ticker } from './components/Ticker/Ticker';
 import { TabBar, type TabKey, type ViewerKey } from './components/TabBar/TabBar';
 import { PressGrid } from './components/PressGrid/PressGrid';
+import { PressOpen } from './components/PressOpen/PressOpen';
 import { Chevron } from './components/Chevron/Chevron';
 import { Toast } from './components/Toast/Toast';
 import { PRESSES } from './data/presses';
@@ -20,6 +21,7 @@ export function App() {
   const [tab, setTab] = useState<TabKey>('all');
   const [viewer, setViewer] = useState<ViewerKey>('grid');
   const [page, setPage] = useState(0);
+  const [openedId, setOpenedId] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
   const { subscribed, subscribe, unsubscribe, isSubscribed } = useSubscriptions();
@@ -47,6 +49,7 @@ export function App() {
   const handleTabChange = useCallback((next: TabKey) => {
     setTab(next);
     setPage(0);
+    setOpenedId(null);
   }, []);
 
   const handleSubscribe = useCallback(
@@ -67,6 +70,11 @@ export function App() {
     [unsubscribe],
   );
 
+  const openedPress = useMemo(
+    () => (openedId ? PRESSES.find((p) => p.id === openedId) ?? null : null),
+    [openedId],
+  );
+
   return (
     <div className={styles.canvas}>
       <div className={styles.header}>
@@ -85,28 +93,42 @@ export function App() {
         />
       </div>
       <div className={styles.content}>
-        <PressGrid
-          items={pageItems}
-          isSubscribed={isSubscribed}
-          onSubscribe={handleSubscribe}
-          onUnsubscribe={handleUnsubscribe}
-          onOpen={() => { /* #12에서 구현 */ }}
-        />
+        {openedPress ? (
+          <PressOpen
+            press={openedPress}
+            subscribed={isSubscribed(openedPress.id)}
+            onSubscribe={handleSubscribe}
+            onUnsubscribe={handleUnsubscribe}
+            onClose={() => setOpenedId(null)}
+          />
+        ) : (
+          <PressGrid
+            items={pageItems}
+            isSubscribed={isSubscribed}
+            onSubscribe={handleSubscribe}
+            onUnsubscribe={handleUnsubscribe}
+            onOpen={setOpenedId}
+          />
+        )}
       </div>
-      <div className={`${styles.chevron} ${styles.chevronLeft}`}>
-        <Chevron
-          dir="left"
-          disabled={page === 0}
-          onClick={() => setPage((p) => Math.max(0, p - 1))}
-        />
-      </div>
-      <div className={`${styles.chevron} ${styles.chevronRight}`}>
-        <Chevron
-          dir="right"
-          disabled={page >= pageCount - 1}
-          onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
-        />
-      </div>
+      {!openedPress && (
+        <>
+          <div className={`${styles.chevron} ${styles.chevronLeft}`}>
+            <Chevron
+              dir="left"
+              disabled={page === 0}
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+            />
+          </div>
+          <div className={`${styles.chevron} ${styles.chevronRight}`}>
+            <Chevron
+              dir="right"
+              disabled={page >= pageCount - 1}
+              onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+            />
+          </div>
+        </>
+      )}
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
     </div>
   );
