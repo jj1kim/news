@@ -36,4 +36,7 @@
   align-items: center;
   justify-content: center;
   background: var(--card);
+  /* 시각적으로만 워드마크를 덮을 것 — 클릭은 아래의 openTarget으로 통과시킨다.
+     (pill 자체는 pointer-events: auto로 다시 살린다.) */
+  pointer-events: none;
 }
